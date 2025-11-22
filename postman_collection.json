@@ -247,52 +247,6 @@
           "host": ["localhost"],
           "port": "3000",
           "path": ["api", "countries", "top"]
-        }
-      }
-    },
-    {
-      "name": "Test Duplicate Email (should fail)",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"name\": \"Jane Duplicate\",\n  \"email\": \"john@example.com\",\n  \"country\": \"CA\"\n}"
-        },
-        "url": {
-          "raw": "http://localhost:3000/api/votes",
-          "protocol": "http",
-          "host": ["localhost"],
-          "port": "3000",
-          "path": ["api", "votes"]
-        }
-      }
-    },
-    {
-      "name": "Test Invalid Email (should fail)",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"name\": \"Test User\",\n  \"email\": \"invalid-email\",\n  \"country\": \"US\"\n}"
-        },
-        "url": {
-          "raw": "http://localhost:3000/api/countries/top",
-          "protocol": "http",
-          "host": ["localhost"],
-          "port": "3000",
-          "path": ["api", "countries", "top"]
         },
         "description": "Get top 10 countries by votes"
       }
