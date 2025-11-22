@@ -2,7 +2,7 @@ import axios from 'axios';
 import { config } from '../../config/config';
 import { VoteService } from '../votes/vote.service';
 import { CountryDetails } from './country.types';
-import { AppError, cache } from '../shared';
+import { AppError, cache, MESSAGES, HTTP_STATUS } from '../shared';
 
 export class CountryService {
   private voteService: VoteService;
@@ -66,7 +66,7 @@ export class CountryService {
       const countries = await Promise.all(countryPromises);
       return countries;
     } catch (error) {
-      throw new AppError('Failed to get top countries', 500);
+      throw new AppError(MESSAGES.FAILED_TO_GET_TOP_COUNTRIES, HTTP_STATUS.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -94,7 +94,7 @@ export class CountryService {
         votes: 0
       };
     } catch (error) {
-      return null;
+      throw new AppError(MESSAGES.FAILED_TO_GET_COUNTRY, HTTP_STATUS.INTERNAL_SERVER_ERROR);
     }
   }
 }

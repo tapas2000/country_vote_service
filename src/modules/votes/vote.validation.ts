@@ -1,36 +1,37 @@
 import { body, validationResult } from 'express-validator';
 import { Request, Response, NextFunction } from 'express';
+import { MESSAGES, HTTP_STATUS } from '../shared/constants';
 
 export const validateVote = [
   body('name')
     .trim()
     .notEmpty()
-    .withMessage('Name is required')
+    .withMessage(MESSAGES.NAME_REQUIRED)
     .isLength({ min: 2, max: 100 })
-    .withMessage('Name must be between 2 and 100 characters'),
+    .withMessage(MESSAGES.NAME_TOO_SHORT),
   
   body('email')
     .trim()
     .notEmpty()
-    .withMessage('Email is required')
+    .withMessage(MESSAGES.EMAIL_REQUIRED)
     .isEmail()
-    .withMessage('Invalid email format')
+    .withMessage(MESSAGES.INVALID_EMAIL)
     .normalizeEmail(),
   
   body('country')
     .trim()
     .notEmpty()
-    .withMessage('Country code is required')
+    .withMessage(MESSAGES.COUNTRY_REQUIRED)
     .isLength({ min: 2, max: 3 })
-    .withMessage('Country code must be 2-3 characters')
+    .withMessage(MESSAGES.COUNTRY_INVALID_LENGTH)
     .isAlpha()
-    .withMessage('Country code must contain only letters')
+    .withMessage(MESSAGES.COUNTRY_INVALID_FORMAT)
     .toUpperCase(),
   
   (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({
+      return res.status(HTTP_STATUS.BAD_REQUEST).json({
         success: false,
         errors: errors.array().map(err => ({
           field: err.type === 'field' ? err.path : 'unknown',

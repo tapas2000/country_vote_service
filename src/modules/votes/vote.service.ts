@@ -1,6 +1,7 @@
 import { Vote } from './vote.model';
 import { CreateVoteDto, VoteResponse, VoteCountByCountry } from './vote.types';
 import { AppError } from '../shared/middleware/errorHandler';
+import { MESSAGES, HTTP_STATUS } from '../shared/constants';
 
 export class VoteService {
   async createVote(data: CreateVoteDto): Promise<VoteResponse> {
@@ -9,7 +10,7 @@ export class VoteService {
       const existingVote = await Vote.findOne({ where: { email: data.email } });
       
       if (existingVote) {
-        throw new AppError('This email has already been used to vote', 409);
+        throw new AppError(MESSAGES.EMAIL_ALREADY_VOTED, HTTP_STATUS.CONFLICT);
       }
 
       // Create new vote
@@ -32,10 +33,10 @@ export class VoteService {
       }
       
       if ((error as any).name === 'SequelizeUniqueConstraintError') {
-        throw new AppError('This email has already been used to vote', 409);
+        throw new AppError(MESSAGES.EMAIL_ALREADY_VOTED, HTTP_STATUS.CONFLICT);
       }
       
-      throw new AppError('Failed to create vote', 500);
+      throw new AppError(MESSAGES.FAILED_TO_CREATE_VOTE, HTTP_STATUS.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -54,7 +55,7 @@ export class VoteService {
 
       return result as any;
     } catch (error) {
-      throw new AppError('Failed to get vote counts', 500);
+      throw new AppError(MESSAGES.FAILED_TO_GET_VOTE_COUNTS, HTTP_STATUS.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -62,7 +63,7 @@ export class VoteService {
     try {
       return await Vote.count();
     } catch (error) {
-      throw new AppError('Failed to get total votes', 500);
+      throw new AppError(MESSAGES.FAILED_TO_GET_TOTAL_VOTES, HTTP_STATUS.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -70,7 +71,7 @@ export class VoteService {
     try {
       await Vote.destroy({ where: {}, truncate: true });
     } catch (error) {
-      throw new AppError('Failed to delete votes', 500);
+      throw new AppError(MESSAGES.FAILED_TO_DELETE_VOTES, HTTP_STATUS.INTERNAL_SERVER_ERROR);
     }
   }
 }
