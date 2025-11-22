@@ -10,7 +10,9 @@ export class CountryController {
 
   getTopCountries = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const limit = req.query.limit ? parseInt(req.query.limit as string) : 10;
+      const limitParam = req.query.limit ? parseInt(req.query.limit as string) : 10;
+      // Validate limit: use default if invalid, cap at 50
+      const limit = isNaN(limitParam) ? 10 : Math.min(Math.max(1, limitParam), 50);
       const countries = await this.countryService.getTopCountries(limit);
 
       res.status(200).json({

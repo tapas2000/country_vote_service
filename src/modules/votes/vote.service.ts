@@ -39,7 +39,7 @@ export class VoteService {
     }
   }
 
-  async getVoteCountByCountry(): Promise<VoteCountByCountry[]> {
+  async getVoteCountByCountry(limit: number = 10): Promise<VoteCountByCountry[]> {
     try {
       const result = await Vote.findAll({
         attributes: [
@@ -48,7 +48,7 @@ export class VoteService {
         ],
         group: ['country'],
         order: [[Vote.sequelize!.fn('COUNT', Vote.sequelize!.col('country')), 'DESC']],
-        limit: 10,
+        limit,
         raw: true
       });
 

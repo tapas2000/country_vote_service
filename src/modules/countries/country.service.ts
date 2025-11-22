@@ -14,15 +14,15 @@ export class CountryService {
 
   async getTopCountries(limit: number = 10): Promise<CountryDetails[]> {
     try {
-      // Get vote counts from database
-      const voteCounts = await this.voteService.getVoteCountByCountry();
+      // Get vote counts from database with limit
+      const voteCounts = await this.voteService.getVoteCountByCountry(limit);
 
       if (voteCounts.length === 0) {
         return [];
       }
 
-      // Limit results
-      const limitedVoteCounts = voteCounts.slice(0, limit);
+      // Vote counts are already limited by the service
+      const limitedVoteCounts = voteCounts;
 
       // Fetch country details from REST Countries API with caching
       const countryPromises = limitedVoteCounts.map(async ({ country, votes }) => {
