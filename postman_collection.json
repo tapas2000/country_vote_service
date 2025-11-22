@@ -1,0 +1,343 @@
+{
+  "info": {
+    "name": "CountryVote Service API",
+    "description": "Complete API collection for CountryVote Service with all endpoints and test scenarios",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/health",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["health"]
+        },
+        "description": "Check if the server is running"
+      }
+    },
+    {
+      "name": "Create Vote - Success",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"country\": \"US\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/votes",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "votes"]
+        },
+        "description": "Create a new vote with valid data"
+      }
+    },
+    {
+      "name": "Create Vote - Germany",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Maria Schmidt\",\n  \"email\": \"maria@example.com\",\n  \"country\": \"DE\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/votes",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "votes"]
+        },
+        "description": "Create a vote for Germany"
+      }
+    },
+    {
+      "name": "Create Vote - France",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Pierre Dubois\",\n  \"email\": \"pierre@example.com\",\n  \"country\": \"FR\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/votes",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "votes"]
+        },
+        "description": "Create a vote for France"
+      }
+    },
+    {
+      "name": "Create Vote - Japan",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Yuki Tanaka\",\n  \"email\": \"yuki@example.com\",\n  \"country\": \"JP\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/votes",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "votes"]
+        },
+        "description": "Create a vote for Japan"
+      }
+    },
+    {
+      "name": "Create Vote - Brazil (Alpha-3)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Carlos Silva\",\n  \"email\": \"carlos@example.com\",\n  \"country\": \"BRA\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/votes",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "votes"]
+        },
+        "description": "Create a vote using Alpha-3 country code"
+      }
+    },
+    {
+      "name": "Create Vote - Duplicate Email",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Jane Smith\",\n  \"email\": \"john@example.com\",\n  \"country\": \"CA\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/votes",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "votes"]
+        },
+        "description": "Try to vote with an email that already voted (should return 409 Conflict)"
+      }
+    },
+    {
+      "name": "Create Vote - Invalid Email",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Test User\",\n  \"email\": \"not-an-email\",\n  \"country\": \"US\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/votes",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "votes"]
+        },
+        "description": "Try to vote with invalid email format (should return 400 Bad Request)"
+      }
+    },
+    {
+      "name": "Create Vote - Missing Fields",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Test User\",\n  \"email\": \"test@example.com\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/votes",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "votes"]
+        },
+        "description": "Try to vote without country field (should return 400 Bad Request)"
+      }
+    },
+    {
+      "name": "Create Vote - Invalid Country Code",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Test User\",\n  \"email\": \"test2@example.com\",\n  \"country\": \"TOOLONG\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/votes",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "votes"]
+        },
+        "description": "Try to vote with invalid country code (should return 400 Bad Request)"
+      }
+    },
+    {
+      "name": "Get Top Countries - Default (10)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/countries/top",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "countries", "top"]
+        }
+      }
+    },
+    {
+      "name": "Test Duplicate Email (should fail)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Jane Duplicate\",\n  \"email\": \"john@example.com\",\n  \"country\": \"CA\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/votes",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "votes"]
+        }
+      }
+    },
+    {
+      "name": "Test Invalid Email (should fail)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Test User\",\n  \"email\": \"invalid-email\",\n  \"country\": \"US\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/countries/top",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "countries", "top"]
+        },
+        "description": "Get top 10 countries by votes"
+      }
+    },
+    {
+      "name": "Get Top Countries - Limit 5",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/countries/top?limit=5",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "countries", "top"],
+          "query": [
+            {
+              "key": "limit",
+              "value": "5"
+            }
+          ]
+        },
+        "description": "Get top 5 countries by votes"
+      }
+    },
+    {
+      "name": "Get Top Countries - Limit 20",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/countries/top?limit=20",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "countries", "top"],
+          "query": [
+            {
+              "key": "limit",
+              "value": "20"
+            }
+          ]
+        },
+        "description": "Get top 20 countries by votes"
+      }
+    }
+  ]
+}
