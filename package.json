@@ -9,7 +9,10 @@
     "start": "node dist/server.js",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "seed:up": "ts-node src/seeders/index.ts up",
+    "seed:down": "ts-node src/seeders/index.ts down",
+    "seed:stats": "ts-node src/seeders/index.ts stats"
   },
   "keywords": [
     "country",

@@ -32,7 +32,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"country\": \"US\"\n}"
+          "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john@gmail.com\",\n  \"country\": \"US\"\n}"
         },
         "url": {
           "raw": "http://localhost:3000/api/votes",
@@ -56,7 +56,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"name\": \"Maria Schmidt\",\n  \"email\": \"maria@example.com\",\n  \"country\": \"DE\"\n}"
+          "raw": "{\n  \"name\": \"Maria Schmidt\",\n  \"email\": \"maria@gmail.com\",\n  \"country\": \"DE\"\n}"
         },
         "url": {
           "raw": "http://localhost:3000/api/votes",
@@ -80,7 +80,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"name\": \"Pierre Dubois\",\n  \"email\": \"pierre@example.com\",\n  \"country\": \"FR\"\n}"
+          "raw": "{\n  \"name\": \"Pierre Dubois\",\n  \"email\": \"pierre@gmail.com\",\n  \"country\": \"FR\"\n}"
         },
         "url": {
           "raw": "http://localhost:3000/api/votes",
@@ -104,7 +104,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"name\": \"Yuki Tanaka\",\n  \"email\": \"yuki@example.com\",\n  \"country\": \"JP\"\n}"
+          "raw": "{\n  \"name\": \"Yuki Tanaka\",\n  \"email\": \"yuki@gmail.com\",\n  \"country\": \"JP\"\n}"
         },
         "url": {
           "raw": "http://localhost:3000/api/votes",
@@ -128,7 +128,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"name\": \"Carlos Silva\",\n  \"email\": \"carlos@example.com\",\n  \"country\": \"BRA\"\n}"
+          "raw": "{\n  \"name\": \"Carlos Silva\",\n  \"email\": \"carlos@gmail.com\",\n  \"country\": \"BRA\"\n}"
         },
         "url": {
           "raw": "http://localhost:3000/api/votes",
@@ -152,7 +152,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"name\": \"Jane Smith\",\n  \"email\": \"john@example.com\",\n  \"country\": \"CA\"\n}"
+          "raw": "{\n  \"name\": \"Jane Smith\",\n  \"email\": \"john@gmail.com\",\n  \"country\": \"CA\"\n}"
         },
         "url": {
           "raw": "http://localhost:3000/api/votes",
@@ -200,7 +200,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"name\": \"Test User\",\n  \"email\": \"test@example.com\"\n}"
+          "raw": "{\n  \"name\": \"Test User\",\n  \"email\": \"test@gmail.com\"\n}"
         },
         "url": {
           "raw": "http://localhost:3000/api/votes",
@@ -224,7 +224,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"name\": \"Test User\",\n  \"email\": \"test2@example.com\",\n  \"country\": \"TOOLONG\"\n}"
+          "raw": "{\n  \"name\": \"Test User\",\n  \"email\": \"test2@gmail.com\",\n  \"country\": \"TOOLONG\"\n}"
         },
         "url": {
           "raw": "http://localhost:3000/api/votes",
