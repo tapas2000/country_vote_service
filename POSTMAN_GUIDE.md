@@ -31,7 +31,7 @@ curl -X POST http://localhost:3000/api/votes \
   -H "Content-Type: application/json" \
   -d '{
     "name": "Maria Schmidt",
-    "email": "maria@example.com",
+    "email": "maria@gmail.com",
     "country": "DE"
   }'
 ```
@@ -42,7 +42,7 @@ curl -X POST http://localhost:3000/api/votes \
   -H "Content-Type: application/json" \
   -d '{
     "name": "Pierre Dubois",
-    "email": "pierre@example.com",
+    "email": "pierre@gmail.com",
     "country": "FR"
   }'
 ```
@@ -53,7 +53,7 @@ curl -X POST http://localhost:3000/api/votes \
   -H "Content-Type: application/json" \
   -d '{
     "name": "Yuki Tanaka",
-    "email": "yuki@example.com",
+    "email": "yuki@gmail.com",
     "country": "JP"
   }'
 ```
@@ -64,7 +64,7 @@ curl -X POST http://localhost:3000/api/votes \
   -H "Content-Type: application/json" \
   -d '{
     "name": "Carlos Silva",
-    "email": "carlos@example.com",
+    "email": "carlos@gmail.com",
     "country": "BRA"
   }'
 ```
@@ -74,8 +74,8 @@ curl -X POST http://localhost:3000/api/votes \
 curl -X POST http://localhost:3000/api/votes \
   -H "Content-Type: application/json" \
   -d '{
-    "name": "Sarah Johnson",
-    "email": "sarah@example.com",
+    "name": "Sarah Connor",
+    "email": "sarah@gmail.com",
     "country": "CA"
   }'
 ```
@@ -86,7 +86,7 @@ curl -X POST http://localhost:3000/api/votes \
   -H "Content-Type: application/json" \
   -d '{
     "name": "James Smith",
-    "email": "james@example.com",
+    "email": "james@gmail.com",
     "country": "GB"
   }'
 ```
@@ -97,7 +97,7 @@ curl -X POST http://localhost:3000/api/votes \
   -H "Content-Type: application/json" \
   -d '{
     "name": "Ana Garcia",
-    "email": "ana@example.com",
+    "email": "ana@gmail.com",
     "country": "ES"
   }'
 ```
@@ -108,7 +108,7 @@ curl -X POST http://localhost:3000/api/votes \
   -H "Content-Type: application/json" \
   -d '{
     "name": "Marco Rossi",
-    "email": "marco@example.com",
+    "email": "marco@gmail.com",
     "country": "IT"
   }'
 ```
@@ -118,8 +118,8 @@ curl -X POST http://localhost:3000/api/votes \
 curl -X POST http://localhost:3000/api/votes \
   -H "Content-Type: application/json" \
   -d '{
-    "name": "Emma Wilson",
-    "email": "emma@example.com",
+    "name": "Emma Watson",
+    "email": "emma@gmail.com",
     "country": "AU"
   }'
 ```
@@ -147,7 +147,7 @@ curl -X POST http://localhost:3000/api/votes \
   -H "Content-Type: application/json" \
   -d '{
     "name": "Jane Smith",
-    "email": "john@example.com",
+    "email": "john@gmail.com",
     "country": "CA"
   }'
 ```
@@ -169,7 +169,7 @@ curl -X POST http://localhost:3000/api/votes \
   -H "Content-Type: application/json" \
   -d '{
     "name": "Test User",
-    "email": "test@example.com"
+    "email": "test@gmail.com"
   }'
 ```
 
@@ -179,7 +179,7 @@ curl -X POST http://localhost:3000/api/votes \
   -H "Content-Type: application/json" \
   -d '{
     "name": "Test User",
-    "email": "test2@example.com",
+    "email": "test2@gmail.com",
     "country": "TOOLONG"
   }'
 ```
@@ -190,7 +190,7 @@ curl -X POST http://localhost:3000/api/votes \
   -H "Content-Type: application/json" \
   -d '{
     "name": "",
-    "email": "test3@example.com",
+    "email": "test3@gmail.com",
     "country": "US"
   }'
 ```
@@ -228,7 +228,7 @@ Run the error scenario commands to see validation in action.
   "data": {
     "id": 1,
     "name": "John Doe",
-    "email": "john@example.com",
+    "email": "john@gmail.com",
     "country": "US",
     "createdAt": "2025-11-22T10:00:00.000Z"
   }

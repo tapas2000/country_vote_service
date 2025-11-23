@@ -42,7 +42,7 @@ Content-Type: application/json
   "data": {
     "id": 1,
     "name": "John Doe",
-    "email": "john@example.com",
+    "email": "john@gmail.com",
     "country": "US",
     "createdAt": "2025-11-22T10:31:00.000Z"
   }
@@ -115,7 +115,7 @@ Content-Type: application/json
 
 {
   "name": "Test User",
-  "email": "test@example.com"
+  "email": "test@gmail.com"
 }
 ```
 
@@ -143,7 +143,7 @@ Content-Type: application/json
 
 {
   "name": "Test User",
-  "email": "test@example.com",
+  "email": "test@gmail.com",
   "country": "TOOLONG"
 }
 ```

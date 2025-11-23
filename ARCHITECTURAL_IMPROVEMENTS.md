@@ -334,7 +334,7 @@ describe('VoteService', () => {
     const service = new VoteService();
     const vote = await service.createVote({
       name: 'Test',
-      email: 'test@example.com',
+      email: 'test@gmail.com',
       country: 'US'
     });
     expect(vote).toBeDefined();

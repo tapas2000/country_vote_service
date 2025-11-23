@@ -2,27 +2,107 @@
 
 A modern, scalable Node.js + Express + TypeScript backend API for voting on countries with detailed information from REST Countries API.
 
-## 🚀 Quick Start
+## 🚀 Getting Started
 
-### Installation
+### Prerequisites
 
+- **Node.js**: v18.x or higher (recommended: v20.x)
+- **npm**: v9.x or higher
+
+Check your versions:
+```bash
+node --version  # Should be v18.x or higher
+npm --version   # Should be v9.x or higher
+```
+
+### Installation Steps
+
+Follow these steps in order to set up and run the project:
+
+#### 1. Clone the Repository
+```bash
+git clone <repository-url>
+cd countryVoteService
+```
+
+#### 2. Install Dependencies
 ```bash
 npm install
 ```
 
-### Development
+This will install all required packages including:
+- Express, TypeScript, Sequelize
+- Testing libraries (Jest, Supertest)
+- Development tools (Nodemon, ts-node)
 
+#### 3. Configure Environment Variables
+Create a `.env` file in the root directory (optional):
+```bash
+PORT=3000
+NODE_ENV=development
+```
+
+#### 4. Database Setup
+The database will be automatically created on first run. SQLite database file: `database.sqlite`
+
+**Optional:** Seed the database with all countries and mock votes:
+```bash
+npm run seed:up
+```
+
+To remove seeded data:
+```bash
+npm run seed:down
+```
+
+To check seeded data statistics:
+```bash
+npm run seed:stats
+```
+
+#### 5. Run the Development Server
 ```bash
 npm run dev
 ```
 
 Server starts at `http://localhost:3000`
 
-### Production
+#### 6. Verify Installation
+Test the health endpoint:
+```bash
+curl http://localhost:3000/health
+```
+
+Expected response:
+```json
+{
+  "success": true,
+  "message": "Server is running",
+  "timestamp": "2025-11-22T10:00:00.000Z"
+}
+```
+
+### Production Build
 
 ```bash
+# Build TypeScript to JavaScript
 npm run build
+
+# Start production server
 npm start
+```
+
+### Testing
+
+```bash
+# Run all tests
+npm test
+
+# Run tests in watch mode
+npm run test:watch
+
+# Run tests with coverage report
+npm run test:coverage
 ```
 
 ## ✨ Features
@@ -62,7 +142,7 @@ Content-Type: application/json
 
 {
   "name": "John Doe",
-  "email": "john@example.com",
+  "email": "john@gmail.com",
   "country": "US"
 }
 ```
@@ -80,7 +160,7 @@ Content-Type: application/json
   "data": {
     "id": 1,
     "name": "John Doe",
-    "email": "john@example.com",
+    "email": "john@gmail.com",
     "country": "US",
     "createdAt": "2025-11-22T10:00:00.000Z"
   }
@@ -262,7 +342,7 @@ npm start        # Run production build
 # Create a vote
 curl -X POST http://localhost:3000/api/votes \
   -H "Content-Type: application/json" \
-  -d '{"name":"John Doe","email":"john@example.com","country":"US"}'
+  -d '{"name":"John Doe","email":"john@gmail.com","country":"US"}'
 
 # Get top countries
 curl http://localhost:3000/api/countries/top
