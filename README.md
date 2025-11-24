@@ -1,251 +1,524 @@
-# CountryVote - Frontend
+# CountryVote Service API
 
-A React + TypeScript application that allows users to vote for their favorite countries and view the top 10 most voted countries with real-time updates.
+A modern, scalable Node.js + Express + TypeScript backend API for voting on countries with detailed information from REST Countries API.
 
-## Features
+## 🚀 Getting Started
 
-- **Voting Form**: Submit your name, email, and favorite country
-  - Real-time validation on blur
-  - Email format validation with visual feedback
-  - One vote per email address (409 conflict handling)
-  - Searchable country dropdown with filtering
-  - Custom toast notifications for success/error feedback
-  
-- **Country Display Table**: View top 10 countries sorted by votes
-  - Real-time search and filtering by country name, capital, region, sub-region, and vote count
-  - Skeleton loaders for loading states
-  - Responsive design with custom table styling
-  - Auto-refresh after successful vote submission
+### Prerequisites
 
-## Tech Stack
+- **Node.js**: v18.x or higher (recommended: v20.x)
+- **npm**: v9.x or higher
 
-- **React 19.2.0**: UI library with hooks (useState, useEffect, useReducer, useRef)
-- **TypeScript**: Strict type safety
-- **Vite 7.2.4**: Build tool and dev server
-- **Tailwind CSS v4**: Utility-first CSS framework with custom theme
-- **Custom Hooks**: Business logic abstraction (useCountries, useVoteForm, useToast)
-
-## Prerequisites
-
-- Node.js (v18 or higher recommended)
-- npm or yarn package manager
-
-## Installation
-
-1. Clone the repository:
+Check your versions:
 ```bash
-git clone git@github.com:tapas2000/country_vote.git
-cd country_vote
+node --version  # Should be v18.x or higher
+npm --version   # Should be v9.x or higher
 ```
 
-2. Install dependencies:
+### Installation Steps
+
+Follow these steps in order to set up and run the project:
+
+#### 1. Clone the Repository
+```bash
+git clone <repository-url>
+cd countryVoteService
+```
+
+#### 2. Install Dependencies
 ```bash
 npm install
 ```
 
-3. Configure environment variables:
-   - The app runs on port 4000 by default (configured in `.env`)
-   - Backend API should be running on `http://localhost:3000`
-   ```
-   VITE_PORT=4000
-   VITE_API_URL=http://localhost:3000/api
-   ```
+This will install all required packages including:
+- Express, TypeScript, Sequelize
+- Testing libraries (Jest, Supertest)
+- Development tools (Nodemon, ts-node)
 
-4. Ensure backend service is running:
-   - Clone and run the backend: [country_vote_service](https://github.com/tapas2000/country_vote_service)
+#### 3. Configure Environment Variables
+Create a `.env` file in the root directory (optional):
+```bash
+PORT=3000
+NODE_ENV=development
+```
 
-## Running the Application
-
-### Development Mode
-
+#### 4. Run the Development Server
 ```bash
 npm run dev
 ```
 
-The application will start on `http://localhost:4000`
+Server starts at `http://localhost:3000`
 
-### Build for Production
+The SQLite database (`database.sqlite`) will be automatically created on first run.
+
+#### 5. (Optional) Seed the Database
+Populate the database with all countries and mock votes:
+```bash
+npm run seed:up countries
+```
+
+This will:
+- Fetch all countries from REST Countries API
+- Create mock votes with `@example.com` emails
+- Display progress and statistics
+
+To remove seeded data:
+```bash
+npm run seed:down countries
+```
+
+To check seeded data statistics:
+```bash
+npm run seed:stats countries
+```
+
+#### 6. Verify Installation
+Test the health endpoint:
+```bash
+curl http://localhost:3000/health
+```
+
+Expected response:
+```json
+{
+  "success": true,
+  "message": "Server is running",
+  "timestamp": "2025-11-22T10:00:00.000Z"
+}
+```
+
+### Production Build
 
 ```bash
+# Build TypeScript to JavaScript
 npm run build
+
+# Start production server
+npm start
 ```
 
-### Preview Production Build
+### Testing
 
 ```bash
-npm run preview
+# Run all tests
+npm test
+
+# Run tests in watch mode
+npm run test:watch
+
+# Run tests with coverage report
+npm run test:coverage
 ```
 
-### Lint Code
+## ✨ Features
+
+- ✅ **Create votes** with email validation and duplicate prevention
+- ✅ **Get top 10 countries** with detailed information
+- ✅ **Modular architecture** for easy scaling
+- ✅ **Caching system** for external API calls (5min TTL)
+- ✅ **Rate limiting** (100 requests/minute per IP)
+- ✅ **Request logging** in development mode
+- ✅ **TypeScript** with strict type safety
+- ✅ **SQLite database** with Sequelize ORM
+- ✅ **REST Countries API** integration
+
+## 📋 API Endpoints
+
+### Health Check
 
 ```bash
-npm run lint
+GET /health
 ```
 
-## Project Structure
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Server is running",
+  "timestamp": "2025-11-22T10:00:00.000Z"
+}
+```
+
+### Create Vote
+
+```bash
+POST /api/votes
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "john@gmail.com",
+  "country": "US"
+}
+```
+
+**Validation Rules:**
+- `name`: Required, 2-100 characters
+- `email`: Required, valid email format
+- `country`: Required, 2-3 letter ISO country code (Alpha-2 or Alpha-3)
+
+**Success Response (201):**
+```json
+{
+  "success": true,
+  "message": "Vote created successfully",
+  "data": {
+    "id": 1,
+    "name": "John Doe",
+    "email": "john@gmail.com",
+    "country": "US",
+    "createdAt": "2025-11-22T10:00:00.000Z"
+  }
+}
+```
+
+**Error Response - Duplicate Email (409):**
+```json
+{
+  "success": false,
+  "error": {
+    "message": "This email has already been used to vote"
+  }
+}
+```
+
+### Get Top Countries
+
+```bash
+GET /api/countries/top?limit=10
+```
+
+**Query Parameters:**
+- `limit`: Optional, default 10, max 50
+
+**Success Response (200):**
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "name": "United States",
+      "officialName": "United States of America",
+      "cca2": "US",
+      "cca3": "USA",
+      "capital": ["Washington, D.C."],
+      "region": "Americas",
+      "subRegion": "North America",
+      "votes": 15
+    }
+  ]
+}
+```
+
+## 🏗️ Architecture
+
+### Modular Structure
 
 ```
 src/
-├── components/           # Shared reusable components
-│   ├── Header.tsx       # Application header
-│   ├── Input.tsx        # Reusable input with validation
-│   ├── SearchInput.tsx  # Search input with icon
-│   ├── SkeletonLoader.tsx # Loading state component
-│   └── Toast.tsx        # Toast notification component
-├── constants/           # Application constants
-│   ├── strings.ts      # All UI text centralized
-│   └── toast.ts        # Toast action constants
-├── hooks/              # Shared custom hooks
-│   └── useToast.ts     # Toast notification management
-├── layouts/            # Feature-based layout organization
-│   └── vote/
-│       ├── components/ # Vote-specific components
-│       ├── hooks/      # Vote-specific hooks
-│       └── index.tsx   # Vote layout orchestrator
-├── services/           # API communication layer
-│   ├── countryService.ts # Country-related API calls
-│   └── voteService.ts    # Vote submission
-├── types/              # TypeScript type definitions
-├── utils/              # Utility functions
-└── assets/             # Static assets (images, icons)
+├── modules/                      # Feature modules
+│   ├── votes/                    # Vote management
+│   │   ├── vote.model.ts
+│   │   ├── vote.service.ts
+│   │   ├── vote.controller.ts
+│   │   ├── vote.routes.ts
+│   │   ├── vote.types.ts
+│   │   ├── vote.validation.ts
+│   │   └── index.ts
+│   │
+│   ├── countries/                # Country aggregation
+│   │   ├── country.service.ts
+│   │   ├── country.controller.ts
+│   │   ├── country.routes.ts
+│   │   ├── country.types.ts
+│   │   └── index.ts
+│   │
+│   ├── shared/                   # Shared utilities
+│   │   ├── middleware/
+│   │   │   ├── errorHandler.ts
+│   │   │   ├── validation.ts
+│   │   │   ├── requestLogger.ts
+│   │   │   └── rateLimit.ts
+│   │   ├── interfaces/
+│   │   ├── utils/
+│   │   ├── constants/
+│   │   ├── cache/
+│   │   └── container/
+│   │
+│   └── index.ts                  # Module registry
+│
+├── config/                       # Configuration
+│   ├── config.ts
+│   └── database.ts
+│
+├── app.ts                        # Express app
+└── server.ts                     # Server entry
 ```
 
-For detailed architecture information, see [PROJECT_OVERVIEW.md](./PROJECT_OVERVIEW.md)
+### Key Design Patterns
 
-## Design Choices
+- **Modular Architecture**: Feature-based organization for scalability
+- **Dependency Injection**: Simple DI container for service management
+- **Caching Strategy**: In-memory cache with TTL for external APIs
+- **Error Handling**: Centralized error handling with custom AppError class
+- **Validation**: express-validator with reusable middleware
 
-### Architecture
-- **Layered Architecture**: Clear separation of concerns (presentation, business logic, data, utilities)
-- **Feature-Based Organization**: Vote feature organized in layouts/vote with its own components, hooks, and logic
-- **State management**: Mix of useState, useReducer (for complex state), and custom hooks
-- **Type Safety**: Strict TypeScript throughout the application
-- **Styling approach**: Tailwind CSS v4 with custom theme variables
+## 🛠️ Tech Stack
 
-### Form Validation
-- Real-time validation on blur events
-- Email regex validation with visual feedback (red border, warning icon)
-- Input padding adjusts to prevent text overlap with error icon
-- Submit button disabled when form has errors
-- Error messages displayed inline for better UX
+| Category | Technology |
+|----------|-----------|
+| **Runtime** | Node.js |
+| **Framework** | Express.js v4.18.2 |
+| **Language** | TypeScript v5.3.3 |
+| **Database** | SQLite + Sequelize v6.35.0 |
+| **Validation** | express-validator v7.0.1 |
+| **HTTP Client** | axios v1.6.2 |
+| **External API** | REST Countries API |
 
-### Search Functionality
-- Real-time filtering by country name, capital, region, sub-region, and vote count
-- Filter logic handled in service layer
-- Searches across multiple fields simultaneously
-- No API calls for filtering (client-side performance)
+## 📦 Installation & Setup
 
-### Toast Notifications
-- Custom implementation using useReducer
-- Success and error states with different styling
-- Auto-dismiss after 3 seconds
-- Smooth slideDown animation
+### Prerequisites
 
-### Responsive Design
-- Mobile-first approach using Tailwind's responsive utilities
-- Custom scrollbar styling (webkit and Firefox support)
-- Table with optimized column widths
-- Grid layout adapts to screen size
+- Node.js v16 or higher
+- npm or yarn
 
-## API Integration
+### Environment Variables
 
-The frontend communicates with the backend service through a service layer abstraction.
+Create a `.env` file (already provided with defaults):
 
-Backend Repository: [country_vote_service](https://github.com/tapas2000/country_vote_service)
+```env
+PORT=3000
+NODE_ENV=development
+DATABASE_PATH=./database.sqlite
+CORS_ORIGIN=http://localhost:4000
+REST_COUNTRIES_API=https://restcountries.com/v3.1
+```
 
-### Endpoints
+### Available Scripts
 
-**POST `/api/votes`** - Submit a new vote
-```typescript
-Request:
+```bash
+npm run dev      # Development with auto-reload
+npm run build    # Compile TypeScript
+npm start        # Run production build
+```
+
+## 📊 Database Schema
+
+### Votes Table
+
+| Column    | Type      | Constraints           |
+|-----------|-----------|-----------------------|
+| id        | INTEGER   | PRIMARY KEY, AUTO INCREMENT |
+| name      | STRING    | NOT NULL              |
+| email     | STRING    | NOT NULL, UNIQUE      |
+| country   | STRING    | NOT NULL, 2-3 chars   |
+| createdAt | DATETIME  | AUTO                  |
+| updatedAt | DATETIME  | AUTO                  |
+
+**Indexes:**
+- Unique index on `email`
+- Index on `country` for faster aggregation
+
+### Viewing the Database
+
+The database is stored in `database.sqlite` at the root of the project.
+
+**Option 1: Using SQLite CLI**
+```bash
+# Install sqlite3 (macOS)
+brew install sqlite3
+
+# Open database
+sqlite3 database.sqlite
+
+# View all votes
+SELECT * FROM Votes;
+
+# Count votes by country
+SELECT country, COUNT(*) as votes FROM Votes GROUP BY country ORDER BY votes DESC;
+
+# Exit
+.quit
+```
+
+**Option 2: Using DB Browser for SQLite (GUI)**
+1. Download from [sqlitebrowser.org](https://sqlitebrowser.org/)
+2. Open `database.sqlite` file
+3. Browse data in the GUI
+
+**Option 3: Using VS Code Extension**
+1. Install "SQLite Viewer" or "SQLite" extension in VS Code
+2. Right-click `database.sqlite` → "Open Database"
+3. Browse tables and run queries
+
+**Option 4: Using TablePlus / DBeaver (Universal Database Clients)**
+1. Download [TablePlus](https://tableplus.com/) (macOS/Windows/Linux) or [DBeaver](https://dbeaver.io/) (free)
+2. Create new connection → Select SQLite
+3. Select `database.sqlite` file
+4. Browse, query, and edit data with a modern GUI
+
+**Option 5: Using Node.js Script**
+```bash
+# Create a quick query script
+node -e "const sqlite3 = require('sqlite3'); const db = new sqlite3.Database('./database.sqlite'); db.all('SELECT * FROM Votes', (err, rows) => { console.log(rows); db.close(); });"
+```
+
+## 🔒 Security & Performance
+
+### Rate Limiting
+- **Default**: 100 requests per minute per IP
+- **Protection**: Against brute force and abuse
+- **Configurable**: Adjust in `shared/middleware/rateLimit.ts`
+
+### Caching
+- **Strategy**: In-memory cache with TTL
+- **Duration**: 5 minutes for country data
+- **Benefit**: Reduces external API calls by ~99%
+
+### CORS
+- **Enabled**: For `http://localhost:4000` (configurable via `.env`)
+- **Methods**: GET, POST, PUT, DELETE
+- **Headers**: Content-Type, Authorization
+
+### Validation
+- **Email**: RFC 5322 format validation
+- **Country Code**: ISO Alpha-2/Alpha-3 validation
+- **Sanitization**: Trim and normalize all inputs
+
+## 🧪 Testing
+
+### Using cURL
+
+```bash
+# Create a vote
+curl -X POST http://localhost:3000/api/votes \
+  -H "Content-Type: application/json" \
+  -d '{"name":"John Doe","email":"john@gmail.com","country":"US"}'
+
+# Get top countries
+curl http://localhost:3000/api/countries/top
+```
+
+### Using Postman/Insomnia
+
+Import these endpoints:
+- POST `http://localhost:3000/api/votes`
+- GET `http://localhost:3000/api/countries/top`
+
+### Common Country Codes
+
+| Country | Code |
+|---------|------|
+| United States | US, USA |
+| Germany | DE, DEU |
+| France | FR, FRA |
+| United Kingdom | GB, GBR |
+| Japan | JP, JPN |
+| Brazil | BR, BRA |
+| Canada | CA, CAN |
+
+## 🚨 Error Handling
+
+### HTTP Status Codes
+
+| Code | Description | Usage |
+|------|-------------|-------|
+| 200  | OK | Successful GET requests |
+| 201  | Created | Successful POST requests |
+| 400  | Bad Request | Validation errors |
+| 404  | Not Found | Invalid endpoints |
+| 409  | Conflict | Duplicate email |
+| 429  | Too Many Requests | Rate limit exceeded |
+| 500  | Internal Server Error | Server errors |
+
+### Error Response Format
+
+```json
 {
-  name: string;
-  email: string;
-  country: string; // Country code (cca2 or cca3)
-}
-
-Response:
-{
-  success: boolean;
-  message?: string;
-  errors?: ValidationErrors;
+  "success": false,
+  "error": {
+    "message": "Error description"
+  }
 }
 ```
 
-**GET `/api/countries/top?limit=10`** - Get top voted countries
-```typescript
-Response:
-{
-  data: Country[];
-}
+### Validation Error Format
 
-interface Country {
-  name: string;
-  capital: string | string[];
-  region: string;
-  subRegion: string;
-  votes: number;
-  cca2?: string;
-  cca3?: string;
+```json
+{
+  "success": false,
+  "errors": [
+    {
+      "field": "email",
+      "message": "Invalid email format"
+    }
+  ]
 }
 ```
 
-**GET `/api/countries/all?limit=250`** - Get all countries for dropdown
+## 📖 Documentation
 
-### Service Layer
-- **countryService.ts**: Handles country-related API calls with mock data fallback
-- **voteService.ts**: Handles vote submission with error handling
-- All services return `ServiceResponse<T>` type for consistency
+- **[API_EXAMPLES.md](./API_EXAMPLES.md)** - Complete API response examples
+- **[MODULAR_ARCHITECTURE.md](./MODULAR_ARCHITECTURE.md)** - Architecture deep dive
+- **[MODULES_README.md](./MODULES_README.md)** - Module-by-module guide
+- **[ARCHITECTURAL_IMPROVEMENTS.md](./ARCHITECTURAL_IMPROVEMENTS.md)** - Improvements & best practices
+- **[MIGRATION_SUMMARY.md](./MIGRATION_SUMMARY.md)** - Migration from flat to modular structure
+- **[VISUAL_GUIDE.md](./VISUAL_GUIDE.md)** - Visual architecture guide
 
-## Implemented Features ✅
+## 🔧 Troubleshooting
 
-- ✅ Full TypeScript implementation with strict mode
-- ✅ Layered architecture with feature-based organization
-- ✅ Custom toast notifications using useReducer
-- ✅ Real-time form validation with visual feedback
-- ✅ Searchable country dropdown with filtering
-- ✅ Skeleton loaders for loading states
-- ✅ Auto-refresh after successful vote submission
-- ✅ Search by vote count
-- ✅ Custom scrollbar styling
-- ✅ Reusable components (Input, Toast, SkeletonLoader)
-- ✅ Constants centralization for maintainability
-- ✅ Service layer abstraction for API calls
-- ✅ Error handling with user-friendly messages
+### Port Already in Use
 
-## Future Enhancements 🚀
+Change port in `.env`:
+```env
+PORT=3001
+```
 
-- [ ] Add flag icons for countries
-- [ ] Implement pagination for country table
-- [ ] Add sorting by different columns (clickable headers)
-- [ ] User authentication for tracking votes
-- [ ] Add charts/visualizations for vote statistics
-- [ ] Implement debouncing for search input
-- [ ] Add unit and integration tests (Jest, React Testing Library)
-- [ ] Accessibility improvements (ARIA labels, keyboard navigation)
-- [ ] Dark mode support
-- [ ] Real-time updates with WebSockets
-- [ ] Export data functionality (CSV, JSON)
+### Database Issues
 
-## Browser Support
+Delete and restart to reset:
+```bash
+rm database.sqlite
+npm run dev
+```
 
-- Chrome (latest)
-- Firefox (latest)
-- Safari (latest)
-- Edge (latest)
+### Module Not Found
 
-## Related Repositories
+Reinstall dependencies:
+```bash
+npm install
+```
 
-- **Backend Service**: [country_vote_service](https://github.com/tapas2000/country_vote_service)
-- **Frontend**: [country_vote](https://github.com/tapas2000/country_vote)
+## 🚀 Production Considerations
 
-## Documentation
+### Recommended Enhancements
 
-- [PROJECT_OVERVIEW.md](./PROJECT_OVERVIEW.md) - Detailed architecture and design decisions
+1. **Database**: Switch to PostgreSQL/MySQL for production
+2. **Logging**: Implement structured logging (Winston/Pino)
+3. **Monitoring**: Add health checks and performance monitoring
+4. **Testing**: Add unit and integration tests
+5. **Security**: Add Helmet.js for security headers
+6. **CI/CD**: Set up automated deployment pipeline
+7. **API Versioning**: Implement `/api/v1` versioning
+8. **Documentation**: Generate OpenAPI/Swagger docs
 
-## Author
+### Environment Variables for Production
 
-**tapas2000** (felipe-08011@hotmail.com)
+```env
+NODE_ENV=production
+PORT=3000
+DATABASE_PATH=/var/data/database.sqlite
+CORS_ORIGIN=https://yourdomain.com
+```
 
-## License
+## 📝 License
 
-MIT
+ISC
+
+## 🤝 Contributing
+
+This is a demonstration project showcasing modern Node.js architecture patterns with TypeScript, modular design, and production-ready features.
+
+---
+
+**Built with ❤️ using Node.js, Express, and TypeScript**
