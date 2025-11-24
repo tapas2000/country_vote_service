@@ -1,6 +1,8 @@
 export interface CountryDetails {
   name: string;
   officialName: string;
+  cca2: string;
+  cca3: string;
   capital: string[];
   region: string;
   subRegion: string;
@@ -12,6 +14,8 @@ export interface RestCountryApiResponse {
     common: string;
     official: string;
   };
+  cca2: string;
+  cca3: string;
   capital?: string[];
   region: string;
   subregion?: string;

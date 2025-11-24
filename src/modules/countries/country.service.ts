@@ -44,6 +44,8 @@ export class CountryService {
           return {
             name: cachedData.name.common,
             officialName: cachedData.name.official,
+            cca2: cachedData.cca2,
+            cca3: cachedData.cca3,
             capital: cachedData.capital || [],
             region: cachedData.region,
             subRegion: cachedData.subregion || '',
@@ -55,6 +57,8 @@ export class CountryService {
           return {
             name: country,
             officialName: country,
+            cca2: country.length === 2 ? country : '',
+            cca3: country.length === 3 ? country : '',
             capital: [],
             region: 'Unknown',
             subRegion: 'Unknown',
@@ -88,6 +92,8 @@ export class CountryService {
       return {
         name: countryData.name.common,
         officialName: countryData.name.official,
+        cca2: countryData.cca2,
+        cca3: countryData.cca3,
         capital: countryData.capital || [],
         region: countryData.region,
         subRegion: countryData.subregion || '',

@@ -4,6 +4,7 @@ import { config } from '../config/config';
 
 interface Country {
   cca2: string;
+  cca3: string;
   name: {
     common: string;
   };
@@ -15,7 +16,7 @@ interface Country {
 async function fetchAllCountries(): Promise<Country[]> {
   try {
     console.log('Fetching all countries from REST Countries API...');
-    const response = await axios.get(`${config.restCountriesApi}/all?fields=cca2,name`);
+    const response = await axios.get(`${config.restCountriesApi}/all?fields=cca2,cca3,name`);
     console.log(`✓ Fetched ${response.data.length} countries`);
     return response.data;
   } catch (error) {
