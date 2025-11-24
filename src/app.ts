@@ -3,6 +3,7 @@ import cors from 'cors';
 import { config } from './config/config';
 import { registerModules } from './modules';
 import { errorHandler, notFoundHandler, requestLogger, rateLimit } from './modules/shared';
+import { APP_MESSAGES, APP_STATUS_CODES } from './constants';
 
 export const createApp = (): Application => {
   const app = express();
@@ -32,9 +33,9 @@ export const createApp = (): Application => {
 
   // Health check endpoint
   app.get('/health', (req, res) => {
-    res.status(200).json({
+    res.status(APP_STATUS_CODES.OK).json({
       success: true,
-      message: 'Server is running',
+      message: APP_MESSAGES.SERVER_RUNNING,
       timestamp: new Date().toISOString(),
       environment: config.nodeEnv
     });

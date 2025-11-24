@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { CountryService } from './country.service';
+import { COUNTRY_MESSAGES, COUNTRY_STATUS_CODES } from './constants';
 
 export class CountryController {
   private countryService: CountryService;
@@ -15,7 +16,7 @@ export class CountryController {
       const limit = isNaN(limitParam) ? 10 : Math.min(Math.max(1, limitParam), 50);
       const countries = await this.countryService.getTopCountries(limit);
 
-      res.status(200).json({
+      res.status(COUNTRY_STATUS_CODES.OK).json({
         success: true,
         data: countries
       });
@@ -30,16 +31,16 @@ export class CountryController {
       const country = await this.countryService.getCountryByCode(code);
 
       if (!country) {
-        res.status(404).json({
+        res.status(COUNTRY_STATUS_CODES.NOT_FOUND).json({
           success: false,
           error: {
-            message: 'Country not found'
+            message: COUNTRY_MESSAGES.COUNTRY_NOT_FOUND
           }
         });
         return;
       }
 
-      res.status(200).json({
+      res.status(COUNTRY_STATUS_CODES.OK).json({
         success: true,
         data: country
       });

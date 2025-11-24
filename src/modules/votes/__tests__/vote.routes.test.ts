@@ -27,7 +27,7 @@ describe('POST /api/votes', () => {
         .expect(201);
 
       expect(response.body.success).toBe(true);
-      expect(response.body.message).toBe('Vote created successfully');
+      expect(response.body.message).toBe('Your vote was successfully submitted');
       expect(response.body.data).toMatchObject({
         name: 'John Doe',
         email: 'john@example.com',

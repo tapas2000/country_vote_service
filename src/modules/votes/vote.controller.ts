@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { VoteService } from './vote.service';
 import { MESSAGES, HTTP_STATUS } from '../shared/constants';
+import { VOTE_MESSAGES, VOTE_STATUS_CODES } from './constants';
 
 export class VoteController {
   private voteService: VoteService;
@@ -15,9 +16,9 @@ export class VoteController {
 
       const vote = await this.voteService.createVote({ name, email, country });
 
-      res.status(201).json({
+      res.status(VOTE_STATUS_CODES.CREATED).json({
         success: true,
-        message: 'Vote created successfully',
+        message: VOTE_MESSAGES.VOTE_CREATED_SUCCESS,
         data: vote
       });
     } catch (error) {
@@ -29,7 +30,7 @@ export class VoteController {
     try {
       const total = await this.voteService.getTotalVotes();
 
-      res.status(200).json({
+      res.status(VOTE_STATUS_CODES.OK).json({
         success: true,
         data: { total }
       });

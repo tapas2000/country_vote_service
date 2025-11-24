@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import { APP_MESSAGES, APP_STATUS_CODES } from '../../../constants';
 
 export interface ApiError extends Error {
   statusCode?: number;
@@ -11,8 +12,8 @@ export const errorHandler = (
   res: Response,
   next: NextFunction
 ): void => {
-  const statusCode = err.statusCode || 500;
-  const message = err.message || 'Internal Server Error';
+  const statusCode = err.statusCode || APP_STATUS_CODES.INTERNAL_SERVER_ERROR;
+  const message = err.message || APP_MESSAGES.INTERNAL_SERVER_ERROR;
 
   console.error(`[ERROR] ${statusCode} - ${message}`, err);
 
@@ -26,10 +27,10 @@ export const errorHandler = (
 };
 
 export const notFoundHandler = (req: Request, res: Response): void => {
-  res.status(404).json({
+  res.status(APP_STATUS_CODES.NOT_FOUND).json({
     success: false,
     error: {
-      message: `Route ${req.originalUrl} not found`
+      message: `${APP_MESSAGES.ROUTE_NOT_FOUND}: ${req.originalUrl}`
     }
   });
 };
