@@ -42,30 +42,35 @@ PORT=3000
 NODE_ENV=development
 ```
 
-#### 4. Database Setup
-The database will be automatically created on first run. SQLite database file: `database.sqlite`
-
-**Optional:** Seed the database with all countries and mock votes:
-```bash
-npm run seed:up
-```
-
-To remove seeded data:
-```bash
-npm run seed:down
-```
-
-To check seeded data statistics:
-```bash
-npm run seed:stats
-```
-
-#### 5. Run the Development Server
+#### 4. Run the Development Server
 ```bash
 npm run dev
 ```
 
 Server starts at `http://localhost:3000`
+
+The SQLite database (`database.sqlite`) will be automatically created on first run.
+
+#### 5. (Optional) Seed the Database
+Populate the database with all countries and mock votes:
+```bash
+npm run seed:up countries
+```
+
+This will:
+- Fetch all countries from REST Countries API
+- Create mock votes with `@example.com` emails
+- Display progress and statistics
+
+To remove seeded data:
+```bash
+npm run seed:down countries
+```
+
+To check seeded data statistics:
+```bash
+npm run seed:stats countries
+```
 
 #### 6. Verify Installation
 Test the health endpoint:
@@ -194,6 +199,8 @@ GET /api/countries/top?limit=10
     {
       "name": "United States",
       "officialName": "United States of America",
+      "cca2": "US",
+      "cca3": "USA",
       "capital": ["Washington, D.C."],
       "region": "Americas",
       "subRegion": "North America",
@@ -311,6 +318,50 @@ npm start        # Run production build
 **Indexes:**
 - Unique index on `email`
 - Index on `country` for faster aggregation
+
+### Viewing the Database
+
+The database is stored in `database.sqlite` at the root of the project.
+
+**Option 1: Using SQLite CLI**
+```bash
+# Install sqlite3 (macOS)
+brew install sqlite3
+
+# Open database
+sqlite3 database.sqlite
+
+# View all votes
+SELECT * FROM Votes;
+
+# Count votes by country
+SELECT country, COUNT(*) as votes FROM Votes GROUP BY country ORDER BY votes DESC;
+
+# Exit
+.quit
+```
+
+**Option 2: Using DB Browser for SQLite (GUI)**
+1. Download from [sqlitebrowser.org](https://sqlitebrowser.org/)
+2. Open `database.sqlite` file
+3. Browse data in the GUI
+
+**Option 3: Using VS Code Extension**
+1. Install "SQLite Viewer" or "SQLite" extension in VS Code
+2. Right-click `database.sqlite` → "Open Database"
+3. Browse tables and run queries
+
+**Option 4: Using TablePlus / DBeaver (Universal Database Clients)**
+1. Download [TablePlus](https://tableplus.com/) (macOS/Windows/Linux) or [DBeaver](https://dbeaver.io/) (free)
+2. Create new connection → Select SQLite
+3. Select `database.sqlite` file
+4. Browse, query, and edit data with a modern GUI
+
+**Option 5: Using Node.js Script**
+```bash
+# Create a quick query script
+node -e "const sqlite3 = require('sqlite3'); const db = new sqlite3.Database('./database.sqlite'); db.all('SELECT * FROM Votes', (err, rows) => { console.log(rows); db.close(); });"
+```
 
 ## 🔒 Security & Performance
 

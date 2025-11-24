@@ -178,6 +178,8 @@ GET /api/countries/top
     {
       "name": "Germany",
       "officialName": "Federal Republic of Germany",
+      "cca2": "DE",
+      "cca3": "DEU",
       "capital": [
         "Berlin"
       ],
@@ -188,6 +190,8 @@ GET /api/countries/top
     {
       "name": "United States",
       "officialName": "United States of America",
+      "cca2": "US",
+      "cca3": "USA",
       "capital": [
         "Washington, D.C."
       ],
@@ -198,6 +202,8 @@ GET /api/countries/top
     {
       "name": "France",
       "officialName": "French Republic",
+      "cca2": "FR",
+      "cca3": "FRA",
       "capital": [
         "Paris"
       ],
@@ -208,6 +214,8 @@ GET /api/countries/top
     {
       "name": "Spain",
       "officialName": "Kingdom of Spain",
+      "cca2": "ES",
+      "cca3": "ESP",
       "capital": [
         "Madrid"
       ],
